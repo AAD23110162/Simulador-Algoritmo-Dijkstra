@@ -73,33 +73,10 @@ En un contexto profesional, la implementación de soluciones de routing basadas 
 
 Stack y herramientas típicas: motores como OSRM o GraphHopper para mapas; bibliotecas en C++/Rust/Go para rendimiento; despliegue en contenedores y pipelines de datos para ingestión y limpieza de mapas.
 
-## Cómo usar (rápido)
-
-1) Ejecutar paso a paso (interactivo):
-
-```bash
-python3 dijkstra_simulator.py --load sample_graph.json --source A
-```
-
-Presiona Enter para avanzar entre pasos. Escribe `r` para ejecutar automáticamente el resto.
-
-2) Ejecutar en modo automático y exportar HTML:
-
-```bash
-python3 dijkstra_simulator.py --load sample_graph.json --source A --dest D --auto --export-html visualization.html
-```
-
-Luego abre `visualization.html` en tu navegador o súbelo a GitHub Pages.
 
 ## Notas técnicas y contrato mínimo
 
 - Entrada: archivo JSON con clave `nodes` (lista de ids) y `edges` (lista de tripletas [u,v,w]).
-- Salida (con `--export-html`): archivo HTML estático con pasos y controles.
 - El simulador es didáctico: no gestiona grafos enormes ni optimizaciones avanzadas (por ejemplo, tratamiento de aristas no dirigidas es explícito según el JSON).
 
-## Siguientes pasos (mejoras posibles)
-
-- Soporte para grafos no dirigidos con flag `--undirected`.
-- Exportar imágenes o GIFs de la animación.
-- Integrar más ejemplos y tests automáticos.
 

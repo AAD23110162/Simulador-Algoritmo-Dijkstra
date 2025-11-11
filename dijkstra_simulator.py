@@ -1,12 +1,9 @@
 #!/usr/bin/env python3
-"""Simulador de Dijkstra (CLI)
+"""
+Simulador de Dijkstra (CLI)
+Muestra paso a paso la ejecución de Dijkstra en consola.
 
-Muestra paso a paso la ejecución de Dijkstra en consola y puede exportar
-una visualización HTML para GitHub Pages.
-
-Uso básico:
-  python3 dijkstra_simulator.py --load sample_graph.json --source A --dest D --auto --export-html visualization.html
-
+Autor: Alejandro Aguirre Díaz
 """
 import argparse
 import heapq
@@ -121,15 +118,33 @@ def export_html(graph, steps, source, dest, output_path):
 
 def main():
     parser = argparse.ArgumentParser(description='Simulador Dijkstra (paso a paso)')
-    parser.add_argument('--load', '-l', help='Archivo JSON con grafo (nodes, edges)', required=True)
-    parser.add_argument('--source', '-s', help='Nodo origen', required=True)
+    parser.add_argument('--load', '-l', help='Archivo JSON con grafo (nodes, edges)')
+    parser.add_argument('--source', '-s', help='Nodo origen')
     parser.add_argument('--dest', '-d', help='Nodo destino (opcional)', default=None)
     parser.add_argument('--auto', '-a', help='Modo automático (no esperar Enter)', action='store_true')
     parser.add_argument('--export-html', help='Generar visualización HTML en archivo dado (ej: visualization.html)')
 
     args = parser.parse_args()
 
+    # Si no se proporcionó --load, intentar usar sample_graph.json en el repo
+    if not args.load:
+        default_path = os.path.join(os.path.dirname(__file__), 'sample_graph.json')
+        if os.path.exists(default_path):
+            args.load = default_path
+            print(f"Usando grafo por defecto: {args.load}")
+        else:
+            parser.error('--load es requerido si no existe sample_graph.json en el proyecto')
+
     graph = load_graph(args.load)
+
+    # Si no se proporcionó --source, tomar el primer nodo del grafo
+    if not args.source:
+        try:
+            args.source = next(iter(graph.keys()))
+            print(f"Usando nodo fuente por defecto: {args.source}")
+        except StopIteration:
+            parser.error('El grafo está vacío; no hay nodos para usar como fuente')
+
     if args.source not in graph:
         print(f"Nodo fuente {args.source} no está en el grafo. Nodos disponibles: {list(graph.keys())}")
         return

@@ -1,50 +1,77 @@
 # Simulador del Algoritmo de Dijkstra
-
-Este repositorio contiene un simulador didáctico del algoritmo de Dijkstra para encontrar caminos más cortos en grafos ponderados.
+**Autor:** Alejandro Aguirre Díaz.   
+**Descripción:** Este repositorio contiene un simulador didáctico del algoritmo de Dijkstra para encontrar caminos más cortos en grafos ponderados.     
+**Última modificación:** Martes 11 de noviembre del 2025.   
 
 ## ¿Qué es?
 
-Es una pequeña herramienta en Python que permite ejecutar el algoritmo de Dijkstra paso a paso en la consola y, opcionalmente, exportar una visualización HTML estática que se puede publicar en GitHub Pages.
+El algoritmo de Dijkstra es un método para calcular las distancias mínimas desde un nodo origen a todos los demás nodos en un grafo ponderado con pesos no negativos.
 
-Incluye:
-- `dijkstra_simulator.py` — ejecutable CLI que muestra cada paso, la cola de prioridad, las distancias y los nodos visitados.
-- `create_html.py` — genera `visualization.html` (estático) con controles para avanzar/reproducir los pasos.
-- `sample_graph.json` — grafo de ejemplo para probar rápidamente.
+- Tipo: algoritmo de grafos, voraz (greedy).
+- Entrada: grafo (nodos y aristas con peso >= 0) y nodo fuente s.
+- Salida: distancias mínimas dist[v] para cada vértice v y, opcionalmente, un arreglo de predecesores prev[v] para reconstruir caminos mínimos.
+- Restricciones: no admite pesos negativos (usar Bellman–Ford en ese caso). Si el grafo está desconectado, algunas distancias permanecerán en infinito (sin camino).
+
+Complejidad típica:
+- Con una heap binaria: O((V + E) log V).
+- Con montículo de Fibonacci: O(E + V log V).
+
+Contrato mínimo:
+- Entrada: lista de nodos y lista de aristas (u, v, w) con w >= 0.
+- Salida: distancias y prev para reconstrucción de caminos.
+
+Nota: este repositorio contiene una implementación didáctica en Python que permite ver paso a paso cómo funciona Dijkstra (`dijkstra_simulator.py`) y ejemplos para probarlo (`sample_graph.json`).
 
 ## ¿Para qué sirve?
 
-Principalmente para aprendizaje y demostraciones:
+El objetivo fundamental de Dijkstra es encontrar rutas de coste mínimo en problemas modelables como grafos con pesos no negativos. Sus usos prácticas incluyen:
 
-- Visualizar cómo Dijkstra selecciona nodos y relaja aristas.
-- Enseñar infraestructura de análisis de grafos en cursos o talleres.
-- Generar una página estática (GitHub Pages) para mostrar la ejecución a un público no técnico.
+- Navegación: calcular distancia o tiempo mínimo entre ubicaciones (p. ej. en mapas).
+- Enrutamiento de redes: protocolos de encaminamiento interior (p. ej. OSPF) usan Dijkstra para calcular tablas de rutas.
+- Logística y transporte: optimización de rutas de reparto y planificación de flotas.
+- Juegos y simulaciones: búsqueda de caminos óptimos en mapas de juego.
+
+Además, Dijkstra es una construcción básica que aparece dentro de soluciones más complejas (A*, contraction hierarchies, multi‑criterio routing) usadas en sistemas de producción.
 
 ## ¿Cómo se implementa en el mundo?
 
-Dijkstra se usa en muchas aplicaciones reales:
+En entornos reales Dijkstra se emplea como bloque base, pero normalmente se adapta o se combina con técnicas adicionales para alcanzar los requisitos de rendimiento y escalabilidad:
 
-- Sistemas de navegación (rutas más cortas en mapas, aunque para carreteras reales se usan variantes y heurísticas como A*).
-- Redes y routing (calcular rutas en redes dirigidas o ponderadas).
-- Planificación logística y optimización de costes.
-- Juegos y simulaciones donde se necesita encontrar caminos óptimos en grafos.
+- Motores de mapas: se usan variantes como A* (heurística admisible) para búsquedas punto a punto y técnicas de preprocesado (contraction hierarchies, multi‑level routing) para acelerar consultas en grafos de carreteras a escala.
+- Sistemas de networking: los protocolos IGP ejecutan Dijkstra periódicamente para construir árboles de enrutamiento en cada router.
+- Logística: Dijkstra puede formar parte de pipelines que calculan rutas óptimas dentro de optimizadores más amplios (restricciones de capacidad, ventanas horarias, costeo múltiple).
 
-Este repositorio demuestra la lógica básica y la trazabilidad (paso a paso) que suele ser útil en entornos educativos y de depuración.
+Prácticas industriales comunes:
+
+- Preprocesado y indexación para consultas rápidas.
+- Uso de heurísticas (A*) cuando existe una función estimada del coste restante.
+- Caching de rutas frecuentes y particionado del grafo para escalabilidad.
+- Monitoreo de latencias y pruebas automatizadas para asegurar exactitud tras cambios en la topología.
 
 ## ¿Cómo lo implementarías en tu vida?
 
-Algunas ideas personales para usar este simulador:
+Aplicaciones personales sencillas donde Dijkstra es útil:
 
-- Aprender estructuras de datos: practicar cómo funcionan colas de prioridad, relax de aristas y reconstrucción de caminos.
-- Planificar rutas personales (pequeñas redes de ciudades o puntos) y experimentar con pesos (tiempo, distancia, coste).
-- Enseñar a otros: usar la exportación HTML para mostrar el algoritmo en una presentación o en clase.
+- Planificar rutas diarias: modelar ubicaciones como nodos y tiempos/ distancias entre ellas como pesos para encontrar la secuencia más eficiente.
+- Optimizar decisiones personales con coste asociado: transformar opciones en estados/nodos y transiciones con coste; Dijkstra da la secuencia de menor coste.
+- Aprendizaje y enseñanza: usar ejemplos pequeños para entender colas de prioridad, relax de aristas y reconstrucción de caminos.
+
+Pasos prácticos para uso personal:
+
+1. Modelar el problema como grafo (definir nodos y pesos).
+2. Normalizar unidades y limpiar datos (eliminar aristas inválidas).
+3. Ejecutar Dijkstra y analizar distancias y rutas resultantes. Si hay muchos nodos, usar heurísticas o subconjuntos del grafo.
 
 ## ¿Cómo lo implementarías en tu trabajo o tu trabajo de ensueño?
 
-En un entorno profesional o ideal:
+En un contexto profesional, la implementación de soluciones de routing basadas en Dijkstra suele contemplar diseño de producto, rendimiento y operativa:
 
-- Integraría el motor de rutas en un servicio backend que exponga una API REST para recibir grafos y devolver rutas optimizadas.
-- Conectar la visualización con datos reales (mapas, telemetría) para depurar y explicar decisiones de routing.
-- Automatizar pruebas de regresión en rutas (por ejemplo, comprobar que cambios en la red no rompen caminos esperados).
+- Arquitectura: desplegar un servicio de routing (microservicio) que exponga una API para consultas de rutas y pueda acceder a una representación del grafo (almacenamiento persistente o en memoria).
+- Escalabilidad: elegir algoritmos y estructuras (A*, contraction hierarchies, índices espaciales) según SLA; usar caching y particionado para consultas masivas.
+- Robustez: permitir actualizaciones incrementales del grafo (cierres, cambios de peso), monitorización, y pruebas automatizadas que cubran rutas críticas.
+- Experiencia de producto: combinar rutas óptimas con restricciones reales (ventanas horarias, capacidades, múltiples criterios) y exponer explicaciones/visualizaciones para usuarios finales.
+
+Stack y herramientas típicas: motores como OSRM o GraphHopper para mapas; bibliotecas en C++/Rust/Go para rendimiento; despliegue en contenedores y pipelines de datos para ingestión y limpieza de mapas.
 
 ## Cómo usar (rápido)
 

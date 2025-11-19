@@ -73,6 +73,26 @@ En un contexto profesional, la implementación de soluciones de routing basadas 
 
 Stack y herramientas típicas: motores como OSRM o GraphHopper para mapas; bibliotecas en C++/Rust/Go para rendimiento; despliegue en contenedores y pipelines de datos para ingestión y limpieza de mapas.
 
+## Glosario técnico
+
+- **Algoritmo voraz (greedy)**: estrategia que toma la mejor decisión local en cada paso esperando una solución global razonable.
+- **Nodo / Vértice**: entidad del grafo que representa una posición o estado.
+- **Arista / Arco**: conexión entre dos nodos; puede ser dirigida (u→v) o no dirigida (u↔v).
+- **Peso (coste)**: valor numérico asociado a una arista que representa distancia, tiempo, coste, etc.
+- **Cola de prioridad**: estructura que permite extraer el elemento de menor (o mayor) prioridad de forma eficiente; normalmente implementada con un heap.
+- **Heap / Montículo**: implementación típica de una cola de prioridad (heap binario, montículo de Fibonacci, etc.).
+- **Relajación (relax)**: operación que intenta mejorar la distancia conocida a un vértice v comprobando si pasar por u ofrece un coste menor.
+- **Distancia provisional**: valor actual estimado de la distancia mínima desde la fuente a un nodo; puede actualizarse durante la ejecución.
+- **Prev / Predecesor**: referencia al nodo anterior en el camino mínimo, utilizada para reconstruir la ruta final.
+- **Infinito (∞)**: representación de una distancia no alcanzable desde la fuente (p. ej. `math.inf`).
+- **Complejidad temporal**: medida del tiempo de ejecución en función del tamaño de la entrada (V = número de nodos, E = número de aristas).
+- **Montículo de Fibonacci**: estructura de datos con mejores costes amortizados teóricos para algunas operaciones de cola de prioridad.
+- **A***: algoritmo que extiende Dijkstra usando una heurística admisible para priorizar nodos hacia un objetivo (útil en búsquedas punto a punto).
+- **Contraction Hierarchies (CH)**: técnica de preprocesado que crea atajos jerárquicos para acelerar búsquedas en grafos grandes.
+- **Bellman–Ford**: algoritmo para caminos mínimos que admite pesos negativos y detecta ciclos de peso negativo.
+- **Preprocesado**: operaciones realizadas sobre el grafo antes de aceptar consultas (indexación, contracción, etc.) para acelerar búsquedas posteriores.
+- **Camino simple**: secuencia de nodos sin repetición; suele ser la solución esperada en rutas prácticas.
+
 
 ## Notas técnicas y contrato mínimo
 
